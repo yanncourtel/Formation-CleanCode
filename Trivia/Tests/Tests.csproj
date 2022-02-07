@@ -18,4 +18,16 @@
     <ProjectReference Include="..\Trivia\Trivia.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="AcceptanceGameTest.Test3.approved.txt">
+      <DependentUpon>AcceptanceGameTest.cs</DependentUpon>
+    </None>
+    <None Update="AcceptanceGameTest.Test2.approved.txt">
+      <DependentUpon>AcceptanceGameTest.cs</DependentUpon>
+    </None>
+    <None Update="AcceptanceGameTest.Test1.approved.txt">
+      <DependentUpon>AcceptanceGameTest.cs</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>

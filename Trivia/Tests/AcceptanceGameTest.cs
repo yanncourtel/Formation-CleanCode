@@ -9,7 +9,7 @@ using Xunit;
 namespace Tests
 {
     [UseReporter(typeof(DiffReporter))]
-    public class GameTest
+    public class AcceptanceGameTest
     {
         [Fact]
         public void Test1()
