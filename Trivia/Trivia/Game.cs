@@ -8,6 +8,8 @@ namespace Trivia
     {
         private const int MaxPlayers = 6;
         private const int NumberOfQuestions = 50;
+        private const int MinPlayers = 2;
+        private const int BoardSize = 12;
 
         private readonly List<string> _players = new List<string>();
 
@@ -42,7 +44,7 @@ namespace Trivia
 
         public bool IsPlayable()
         {
-            return HowManyPlayers() >= 2;
+            return HowManyPlayers() >= MinPlayers;
         }
 
         public bool Add(string playerName)
@@ -76,12 +78,7 @@ namespace Trivia
                     //Write that user is getting out
                     Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
                     // add roll to place
-                    _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                    if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
-
-                    Console.WriteLine(_players[_currentPlayer]
-                            + "'s new location is "
-                            + _places[_currentPlayer]);
+                    MovePlayer(roll);
                     Console.WriteLine("The category is " + CurrentCategory());
                     AskQuestion();
                 }
@@ -93,15 +90,20 @@ namespace Trivia
             }
             else
             {
-                _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
-
-                Console.WriteLine(_players[_currentPlayer]
-                        + "'s new location is "
-                        + _places[_currentPlayer]);
+                MovePlayer(roll);
                 Console.WriteLine("The category is " + CurrentCategory());
                 AskQuestion();
             }
+        }
+
+        private void MovePlayer(int roll)
+        {
+            _places[_currentPlayer] += roll;
+            if (_places[_currentPlayer] >= BoardSize) _places[_currentPlayer] -= BoardSize;
+
+            Console.WriteLine(_players[_currentPlayer]
+                              + "'s new location is "
+                              + _places[_currentPlayer]);
         }
 
         private void AskQuestion()
