@@ -10,6 +10,7 @@ namespace Trivia
         private const int NumberOfQuestions = 50;
         private const int MinPlayers = 2;
         private const int BoardSize = 12;
+        private const int GoldCoinsToWin = 6;
 
         private readonly List<string> _players = new List<string>();
 
@@ -157,7 +158,7 @@ namespace Trivia
         /// To call when the answer is right
         /// </summary>
         /// <returns></returns>
-        public bool WasCorrectlyAnswered()
+        public void WasCorrectlyAnswered()
         {
             if (_inPenaltyBox[_currentPlayer])
             {
@@ -169,22 +170,16 @@ namespace Trivia
                             + " now has "
                             + _purses[_currentPlayer]
                             + " Gold Coins.");
-
-                    var winner = !(_purses[_currentPlayer] == 6);
-                    HasAWinner = _purses[_currentPlayer] == 6;
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
-
-                    return winner;
+                    
+                    HasAWinner = _purses[_currentPlayer] == GoldCoinsToWin;
+                    NextPlayer();
                 }
                 else
                 {
-                    _currentPlayer++;
-                    if (_currentPlayer == _players.Count) _currentPlayer = 0;
-                    return true;
+                    NextPlayer();
                 }
             }
-            else
+            else 
             {
                 Console.WriteLine("Answer was corrent!!!!");
                 _purses[_currentPlayer]++;
@@ -193,13 +188,15 @@ namespace Trivia
                         + _purses[_currentPlayer]
                         + " Gold Coins.");
 
-                var winner = !(_purses[_currentPlayer] == 6);
-                HasAWinner = _purses[_currentPlayer] == 6;
-                _currentPlayer++;
-                if (_currentPlayer == _players.Count) _currentPlayer = 0;
-
-                return winner;
+                HasAWinner = _purses[_currentPlayer] == GoldCoinsToWin;
+                NextPlayer();
             }
+        }
+
+        private void NextPlayer()
+        {
+            _currentPlayer++;
+            if (_currentPlayer == _players.Count) _currentPlayer = 0;
         }
 
         /// <summary>

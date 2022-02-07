@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Tests
 {
+    [Collection("Game")]
     [UseReporter(typeof(DiffReporter))]
     public class AcceptanceGameTest
     {

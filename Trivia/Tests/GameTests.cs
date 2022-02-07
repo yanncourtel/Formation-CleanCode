@@ -6,6 +6,7 @@ using Xunit;
 
 namespace Tests
 {
+    [Collection("Game")]
     public class GameTests
     {
         [Fact]
@@ -13,7 +14,7 @@ namespace Tests
         {
             //Arrange
             var game = new Game();
-            game.Add("Cedric");
+            game.Add("Michel");
             game.WasCorrectlyAnswered();
             game.WasCorrectlyAnswered();
             game.WasCorrectlyAnswered();
