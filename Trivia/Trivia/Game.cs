@@ -26,6 +26,8 @@ namespace Trivia
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
 
+        public bool HasAWinner { get; internal set; }
+
         public Game()
         {
             for (var i = 0; i < NumberOfQuestions; i++)
@@ -78,7 +80,7 @@ namespace Trivia
                     //Write that user is getting out
                     Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
                     // add roll to place
-                    MovePlayer(roll);
+                    MoveCurrentPlayer(roll);
                     Console.WriteLine("The category is " + CurrentCategory());
                     AskQuestion();
                 }
@@ -90,13 +92,13 @@ namespace Trivia
             }
             else
             {
-                MovePlayer(roll);
+                MoveCurrentPlayer(roll);
                 Console.WriteLine("The category is " + CurrentCategory());
                 AskQuestion();
             }
         }
 
-        private void MovePlayer(int roll)
+        private void MoveCurrentPlayer(int roll)
         {
             _places[_currentPlayer] += roll;
             if (_places[_currentPlayer] >= BoardSize) _places[_currentPlayer] -= BoardSize;
@@ -169,6 +171,7 @@ namespace Trivia
                             + " Gold Coins.");
 
                     var winner = !(_purses[_currentPlayer] == 6);
+                    HasAWinner = _purses[_currentPlayer] == 6;
                     _currentPlayer++;
                     if (_currentPlayer == _players.Count) _currentPlayer = 0;
 
@@ -191,6 +194,7 @@ namespace Trivia
                         + " Gold Coins.");
 
                 var winner = !(_purses[_currentPlayer] == 6);
+                HasAWinner = _purses[_currentPlayer] == 6;
                 _currentPlayer++;
                 if (_currentPlayer == _players.Count) _currentPlayer = 0;
 
