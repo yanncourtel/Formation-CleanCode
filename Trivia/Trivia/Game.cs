@@ -6,33 +6,33 @@ namespace Trivia
 {
     public class Game
     {
-        private const int FIVE=  6;
+        private const int MaxPlayers = 6;
+        private const int NumberOfQuestions = 50;
 
         private readonly List<string> _players = new List<string>();
 
-        private readonly int[] _places = new int[6];
-        private readonly int[] _purses = new int[6];
+        private readonly int[] _places = new int[MaxPlayers];
+        private readonly int[] _purses = new int[MaxPlayers];
 
-        private readonly bool[] _inPenaltyBox = new bool[FIVE];
+        private readonly bool[] _inPenaltyBox = new bool[MaxPlayers];
 
-        private readonly LinkedList<string> _Q1 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q2 = new LinkedList<string>();
-        private readonly LinkedList<string> _Q3 = new LinkedList<string>();
-        private LinkedList<string> _Q4 = new LinkedList<string>();
+        private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _sportQuestions = new LinkedList<string>();
+        private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
 
         public Game()
         {
-            for (var i = 0; i < 50; i++)
+            for (var i = 0; i < NumberOfQuestions; i++)
             {
-                _Q1.AddLast("Pop Question " + i);
-                _Q2.AddLast(("Science Question " + i));
-                _Q3.AddLast(("Sports Question " + i));
-                _Q4.AddLast(CreateRockQuestion(i));
+                _popQuestions.AddLast("Pop Question " + i);
+                _scienceQuestions.AddLast(("Science Question " + i));
+                _sportQuestions.AddLast(("Sports Question " + i));
+                _rockQuestions.AddLast(CreateRockQuestion(i));
             }
-            //Shuf();
         }
 
         public string CreateRockQuestion(int index)
@@ -69,27 +69,27 @@ namespace Trivia
 
             if (_inPenaltyBox[_currentPlayer])
             {
-            if (roll % 2 != 0)
-            {
-                //User is getting out of penalty box
-                _isGettingOutOfPenaltyBox = true;
-                //Write that user is getting out
-                Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
-                // add roll to place
-                _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                if (roll % 2 != 0)
+                {
+                    //User is getting out of penalty box
+                    _isGettingOutOfPenaltyBox = true;
+                    //Write that user is getting out
+                    Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
+                    // add roll to place
+                    _places[_currentPlayer] = _places[_currentPlayer] + roll;
+                    if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
 
-                Console.WriteLine(_players[_currentPlayer]
-                        + "'s new location is "
-                        + _places[_currentPlayer]);
-                Console.WriteLine("The category is " + CurrentCategory());
-                AskQuestion();
-            }
-                 else
-                 {
-                     Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
-                     _isGettingOutOfPenaltyBox = false;
-                 }
+                    Console.WriteLine(_players[_currentPlayer]
+                            + "'s new location is "
+                            + _places[_currentPlayer]);
+                    Console.WriteLine("The category is " + CurrentCategory());
+                    AskQuestion();
+                }
+                else
+                {
+                    Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
+                    _isGettingOutOfPenaltyBox = false;
+                }
             }
             else
             {
@@ -108,39 +108,45 @@ namespace Trivia
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(_Q1.First());
-                _Q1.RemoveFirst();
+                Console.WriteLine(_popQuestions.First());
+                _popQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(_Q2.First());
-                _Q2.RemoveFirst();
+                Console.WriteLine(_scienceQuestions.First());
+                _scienceQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(_Q3.First());
-                _Q3.RemoveFirst();
+                Console.WriteLine(_sportQuestions.First());
+                _sportQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(_Q4.First());
-                _Q4.RemoveFirst();
+                Console.WriteLine(_rockQuestions.First());
+                _rockQuestions.RemoveFirst();
             }
-            //Shuf();
         }
 
         private string CurrentCategory()
         {
-            if (_places[_currentPlayer] == 0) return "Pop";
-            if (_places[_currentPlayer] == 4) return "Pop";
-            if (_places[_currentPlayer] == 8) return "Pop";
-            if (_places[_currentPlayer] == 1) return "Science";
-            if (_places[_currentPlayer] == 5) return "Science";
-            if (_places[_currentPlayer] == 9) return "Science";
-            if (_places[_currentPlayer] == 2) return "Sports";
-            if (_places[_currentPlayer] == 6) return "Sports";
-            if (_places[_currentPlayer] == 10) return "Sports";
-            return "Rock";
+            switch (_places[_currentPlayer])
+            {
+                case 0:
+                case 4:
+                case 8:
+                    return "Pop";
+                case 1:
+                case 5:
+                case 9:
+                    return "Science";
+                case 2:
+                case 6:
+                case 10:
+                    return "Sports";
+                default:
+                    return "Rock";
+            }
         }
 
         /// <summary>
@@ -191,7 +197,7 @@ namespace Trivia
         }
 
         /// <summary>
-        /// To call when the answer is right
+        /// To call when the answer is wrong
         /// </summary>
         /// <returns></returns>
         public bool WrongAnswer()
@@ -202,7 +208,7 @@ namespace Trivia
 
             _currentPlayer++;
             if (_currentPlayer == _players.Count) _currentPlayer = 0;
-            //Must alwys return false 
+
             return true;
         }
     }
