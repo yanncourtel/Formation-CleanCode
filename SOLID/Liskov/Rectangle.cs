@@ -1,10 +1,16 @@
 namespace SOLID.Liskov
 {
-    public class Rectangle
+    public class Rectangle: IHasArea
     {
-        public virtual int Width { get; set; }
-        public virtual int Height { get; set; }
+        public Rectangle(int width, int height)
+        {
+            Width = width;
+            Height = height;
+        }
 
-        public virtual int Area => Height * Width;
+        private int Width { get; set; }
+        private int Height { get; set; }
+
+        public int Area => Height * Width;
     }
 }

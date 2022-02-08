@@ -7,20 +7,16 @@ namespace SOLID.Liskov
         [Fact]
         public void Area_should_be_height_times_width_1()
         {
-            area_should_be_height_times_width(new Rectangle());
+            var rect = new Rectangle(width:5, height:4);
+            Assert.Equal(20, rect.Area);
         }
 
         [Fact]
         public void Area_should_be_height_times_width_2()
         {
-            area_should_be_height_times_width(new Square());
+            var rect = new Square(side: 5);
+            Assert.Equal(25, rect.Area);
         }
 
-        private void area_should_be_height_times_width(Rectangle rect)
-        {
-            rect.Width = 5;
-            rect.Height = 4;
-            Assert.Equal(20, rect.Area);
-        }
     }
 }
