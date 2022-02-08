@@ -28,7 +28,7 @@ namespace Parrot.Tests
         [Fact]
         public void GetSpeedOfAfricanParrot_With_No_Coconuts()
         {
-            var parrot = new Parrot(ParrotTypeEnum.AFRICAN, 0, 0, false);
+            ICanGetSpeed parrot = new ParrotAfrican(0);
             Assert.Equal(12.0, parrot.GetSpeed());
         }
 
@@ -49,7 +49,7 @@ namespace Parrot.Tests
         [Fact]
         public void GetSpeedOfEuropeanParrot()
         {
-            var parrot = new Parrot(ParrotTypeEnum.EUROPEAN, 0, 0, false);
+            ICanGetSpeed parrot = new ParrotEuropean();
             Assert.Equal(12.0, parrot.GetSpeed());
         }
     }
