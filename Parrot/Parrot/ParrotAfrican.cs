@@ -1,17 +1,19 @@
-﻿namespace Parrot
+﻿using System;
+
+namespace Parrot
 {
     public class ParrotAfrican : ICanGetSpeed
     {
-        private int v;
+        private readonly int _numberOfCoconuts;
 
-        public ParrotAfrican(int v)
+        public ParrotAfrican(int numberofCoconut)
         {
-            this.v = v;
+            this._numberOfCoconuts = numberofCoconut;
         }
 
         public double GetSpeed()
         {
-            return 12;
+            return Math.Max(0, 12 - 9 * _numberOfCoconuts);
         }
     }
 }
