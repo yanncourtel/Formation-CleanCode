@@ -1,10 +1,9 @@
 namespace SOLID.InterfaceSegregation
 {
-    public interface Machine {
+    public interface Machine : ICanFax, ICanPhotocopy, ICanPrint, ICanScan
+    {
 
-        void Print();
-        void Fax();
-        void Scan();
-        void Photocopy();
     }
+
+
 }
