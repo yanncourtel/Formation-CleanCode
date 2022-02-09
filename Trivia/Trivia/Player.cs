@@ -5,6 +5,7 @@ namespace Trivia
     public class Player
     {
         private string playerName;
+        private bool _isInJail;
 
         public int Purse { get; internal set; }
         public int Position { get; private set; }
@@ -33,6 +34,21 @@ namespace Trivia
         {
             Position += roll;
             if (Position >= boardSize) Position -= boardSize;
+        }
+
+        public bool IsInJail()
+        {
+            return _isInJail;
+        }
+
+        internal void GoToJail()
+        {
+            _isInJail = true;
+        }
+
+        internal void GetOutOfJail()
+        {
+            _isInJail = false;
         }
     }
 }

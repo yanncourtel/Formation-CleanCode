@@ -19,6 +19,8 @@ Eloïse now has 1 Gold Coins.
 Cedric is the current player
 They have rolled a 2
 Cedric is not getting out of the penalty box
+Answer was correct!!!!
+Cedric now has 1 Gold Coins.
 Eloïse is the current player
 They have rolled a 2
 Eloïse's new location is 4
@@ -29,6 +31,8 @@ Eloïse now has 2 Gold Coins.
 Cedric is the current player
 They have rolled a 2
 Cedric is not getting out of the penalty box
+Answer was correct!!!!
+Cedric now has 2 Gold Coins.
 Eloïse is the current player
 They have rolled a 2
 Eloïse's new location is 6
@@ -39,6 +43,8 @@ Eloïse now has 3 Gold Coins.
 Cedric is the current player
 They have rolled a 2
 Cedric is not getting out of the penalty box
+Answer was correct!!!!
+Cedric now has 3 Gold Coins.
 Eloïse is the current player
 They have rolled a 2
 Eloïse's new location is 8
@@ -49,6 +55,8 @@ Eloïse now has 4 Gold Coins.
 Cedric is the current player
 They have rolled a 2
 Cedric is not getting out of the penalty box
+Answer was correct!!!!
+Cedric now has 4 Gold Coins.
 Eloïse is the current player
 They have rolled a 2
 Eloïse's new location is 10
