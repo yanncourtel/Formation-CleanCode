@@ -13,7 +13,7 @@ namespace Tests
         public void Should_game_be_finished_if_one_player_has_6_golden_coins()
         {
             //Arrange
-            var game = new Game();
+            var game = new Game(new FakeAdapter());
             game.AddPlayer("Michel");
             game.WasCorrectlyAnswered();
             game.WasCorrectlyAnswered();
@@ -24,6 +24,14 @@ namespace Tests
 
             //Assert
             Assert.True(game.HasAWinner); 
+        }
+    }
+
+    public class FakeAdapter : IOutputAdapter
+    {
+        public void SendMessage(string message)
+        {
+            //fait rien
         }
     }
 }

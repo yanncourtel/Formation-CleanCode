@@ -20,6 +20,8 @@ namespace Trivia
         private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayerIndex;
+        private Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory>();
+
         private static Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory> {
 
             { 0, QuestionCategory.Pop },
@@ -36,12 +38,16 @@ namespace Trivia
             { 11, QuestionCategory.Rock }
         };
 
+        private Dictionary<int, QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory>();
+        private readonly IOutputAdapter _outputAdapter;
+        
         private Player CurrentPlayer => _players[_currentPlayerIndex];
 
         public bool HasAWinner { get; internal set; }
 
-        public Game()
+        public Game(IOutputAdapter outputAdapter)
         {
+            _outputAdapter = outputAdapter;
             for (var i = 0; i < NumberOfQuestions; i++)
             {
                 _popQuestions.AddLast(QuestionCategory.Pop + " Question " + i);
@@ -49,7 +55,6 @@ namespace Trivia
                 _sportQuestions.AddLast(QuestionCategory.Sports + " Question " + i);
                 _rockQuestions.AddLast(QuestionCategory.Rock + " Question " + i);
             }
-
         }
 
         public bool IsPlayable()
@@ -61,9 +66,16 @@ namespace Trivia
         {
             _players.Add(new Player(playerName));
 
-            Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + _players.Count);
+            OutputMessage(playerName + " was added");
+            OutputMessage("They are player number " + _players.Count);
             return true;
+        }
+
+        private void OutputMessage(string message)
+        {
+            //Console.WriteLine(message);
+
+            _outputAdapter.SendMessage(message);
         }
 
         public int HowManyPlayers()
@@ -73,7 +85,8 @@ namespace Trivia
 
         public void Roll(int roll)
         {
-            Console.WriteLine(CurrentPlayer + " is the current player"); Console.WriteLine("They have rolled a " + roll);
+            OutputMessage(CurrentPlayer + " is the current player"); 
+            OutputMessage("They have rolled a " + roll);
 
             if (CurrentPlayer.IsInJail())
             {
@@ -82,21 +95,21 @@ namespace Trivia
                     //User is getting out of penalty box
                     CurrentPlayer.GetOutOfJail();
                     //Write that user is getting out
-                    Console.WriteLine(CurrentPlayer + " is getting out of the penalty box");
+                    OutputMessage(CurrentPlayer + " is getting out of the penalty box");
                     // add roll to place
                     MoveCurrentPlayer(roll);
-                    Console.WriteLine("The category is " + CurrentCategory());
+                    OutputMessage("The category is " + CurrentCategory());
                     AskQuestion();
                 }
                 else
                 {
-                    Console.WriteLine(CurrentPlayer + " is not getting out of the penalty box");
+                    OutputMessage(CurrentPlayer + " is not getting out of the penalty box");
                 }
             }
             else
             {
                 MoveCurrentPlayer(roll);
-                Console.WriteLine("The category is " + CurrentCategory());
+                OutputMessage("The category is " + CurrentCategory());
                 AskQuestion();
             }
         }
@@ -105,7 +118,7 @@ namespace Trivia
         {
             CurrentPlayer.Move(roll, BoardSize);
 
-            Console.WriteLine(CurrentPlayer
+            OutputMessage(CurrentPlayer
                               + "'s new location is "
                               + CurrentPlayer.Position);
         }
@@ -114,46 +127,28 @@ namespace Trivia
         {
             if (CurrentCategory() == "Pop")
             {
-                Console.WriteLine(_popQuestions.First());
+                OutputMessage(_popQuestions.First());
                 _popQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Science")
             {
-                Console.WriteLine(_scienceQuestions.First());
+                OutputMessage(_scienceQuestions.First());
                 _scienceQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Sports")
             {
-                Console.WriteLine(_sportQuestions.First());
+                OutputMessage(_sportQuestions.First());
                 _sportQuestions.RemoveFirst();
             }
             if (CurrentCategory() == "Rock")
             {
-                Console.WriteLine(_rockQuestions.First());
+                OutputMessage(_rockQuestions.First());
                 _rockQuestions.RemoveFirst();
             }
         }
 
         private string CurrentCategory()
         {
-            //switch (CurrentPlayer.Position)
-            //{
-            //    case 0:
-            //    case 4:
-            //    case 8:
-            //        return "Pop";
-            //    case 1:
-            //    case 5:
-            //    case 9:
-            //        return "Science";
-            //    case 2:
-            //    case 6:
-            //    case 10:
-            //        return "Sports";
-            //    default:
-            //        return "Rock";
-            //}
-
             return _categoryPosition[CurrentPlayer.Position].ToString();
         }
 
@@ -170,9 +165,9 @@ namespace Trivia
 
         private void CurrentPlayerCorrectlyAnswered()
         {
-            Console.WriteLine("Answer was correct!!!!");
+            OutputMessage("Answer was correct!!!!");
             CurrentPlayer.Score();
-            Console.WriteLine(CurrentPlayer
+            OutputMessage(CurrentPlayer
                               + " now has "
                               + CurrentPlayer.Purse
                               + " Gold Coins.");
@@ -187,14 +182,19 @@ namespace Trivia
 
         public void CurrentPlayerIncorrectlyAnswered()
         {
-            Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(CurrentPlayer + " was sent to the penalty box");
+            OutputMessage("Question was incorrectly answered");
+            OutputMessage(CurrentPlayer + " was sent to the penalty box");
             CurrentPlayer.GoToJail();
 
             _currentPlayerIndex++;
             if (_currentPlayerIndex == _players.Count) _currentPlayerIndex = 0;
 
         }
+    }
+
+    public interface IOutputAdapter
+    {
+        void SendMessage(string message);
     }
 
     internal enum QuestionCategory

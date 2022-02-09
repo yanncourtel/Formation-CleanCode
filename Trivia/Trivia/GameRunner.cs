@@ -6,7 +6,7 @@ namespace Trivia
     {
         public static void Main(string[] args)
         {
-            var aGame = new Game();
+            var aGame = new Game(new ConsoleOutputAdapter());
 
             aGame.AddPlayer("Chet");
             aGame.AddPlayer("Pat");
