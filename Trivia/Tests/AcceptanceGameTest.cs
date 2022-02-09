@@ -18,7 +18,7 @@ namespace Tests
             var fakeconsole = new StringWriter();
             Console.SetOut(fakeconsole);
             var game = new Game();
-            game.Add("Cedric");
+            game.AddPlayer("Cedric");
             game.Roll(12);
             game.WrongAnswer();
             game.Roll(2);
@@ -34,8 +34,8 @@ namespace Tests
             var fakeconsole = new StringWriter();
             Console.SetOut(fakeconsole);
             var game = new Game();
-            game.Add("Cedric");
-            game.Add("Eloïse");
+            game.AddPlayer("Cedric");
+            game.AddPlayer("Eloïse");
             game.Roll(1);
             game.WasCorrectlyAnswered();
             game.Roll(2);
@@ -65,8 +65,8 @@ namespace Tests
             var fakeconsole = new StringWriter();
             Console.SetOut(fakeconsole);
             var game = new Game();
-            game.Add("Cedric");
-            game.Add("Eloïse");
+            game.AddPlayer("Cedric");
+            game.AddPlayer("Eloïse");
             game.Roll(1);
             game.WrongAnswer();
             game.Roll(2);

@@ -12,7 +12,7 @@ namespace Trivia
         private const int BoardSize = 12;
         private const int GoldCoinsToWin = 6;
 
-        private readonly List<string> _players = new List<string>();
+        private readonly List<Player> _players = new List<Player>();
 
         private readonly int[] _places = new int[MaxPlayers];
         private readonly int[] _purses = new int[MaxPlayers];
@@ -26,6 +26,7 @@ namespace Trivia
 
         private int _currentPlayer;
         private bool _isGettingOutOfPenaltyBox;
+        private Player CurrentPlayer => _players[_currentPlayer];
 
         public bool HasAWinner { get; internal set; }
 
@@ -38,6 +39,7 @@ namespace Trivia
                 _sportQuestions.AddLast(("Sports Question " + i));
                 _rockQuestions.AddLast(CreateRockQuestion(i));
             }
+
         }
 
         public string CreateRockQuestion(int index)
@@ -50,9 +52,9 @@ namespace Trivia
             return HowManyPlayers() >= MinPlayers;
         }
 
-        public bool Add(string playerName)
+        public bool AddPlayer(string playerName)
         {
-            _players.Add(playerName);
+            _players.Add(new Player(playerName));
             _places[HowManyPlayers()] = 0;
             _purses[HowManyPlayers()] = 0;
             _inPenaltyBox[HowManyPlayers()] = false;
@@ -69,7 +71,7 @@ namespace Trivia
 
         public void Roll(int roll)
         {
-            Console.WriteLine(_players[_currentPlayer] + " is the current player"); Console.WriteLine("They have rolled a " + roll);
+            Console.WriteLine(CurrentPlayer + " is the current player"); Console.WriteLine("They have rolled a " + roll);
 
 
             if (_inPenaltyBox[_currentPlayer])
@@ -79,7 +81,7 @@ namespace Trivia
                     //User is getting out of penalty box
                     _isGettingOutOfPenaltyBox = true;
                     //Write that user is getting out
-                    Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
+                    Console.WriteLine(CurrentPlayer + " is getting out of the penalty box");
                     // add roll to place
                     MoveCurrentPlayer(roll);
                     Console.WriteLine("The category is " + CurrentCategory());
@@ -87,7 +89,7 @@ namespace Trivia
                 }
                 else
                 {
-                    Console.WriteLine(_players[_currentPlayer] + " is not getting out of the penalty box");
+                    Console.WriteLine(CurrentPlayer + " is not getting out of the penalty box");
                     _isGettingOutOfPenaltyBox = false;
                 }
             }
@@ -104,7 +106,7 @@ namespace Trivia
             _places[_currentPlayer] += roll;
             if (_places[_currentPlayer] >= BoardSize) _places[_currentPlayer] -= BoardSize;
 
-            Console.WriteLine(_players[_currentPlayer]
+            Console.WriteLine(CurrentPlayer
                               + "'s new location is "
                               + _places[_currentPlayer]);
         }
@@ -182,7 +184,7 @@ namespace Trivia
         {
             Console.WriteLine("Answer was correct!!!!");
             _purses[_currentPlayer]++;
-            Console.WriteLine(_players[_currentPlayer]
+            Console.WriteLine(CurrentPlayer
                               + " now has "
                               + _purses[_currentPlayer]
                               + " Gold Coins.");
@@ -201,7 +203,7 @@ namespace Trivia
         public bool WrongAnswer()
         {
             Console.WriteLine("Question was incorrectly answered");
-            Console.WriteLine(_players[_currentPlayer] + " was sent to the penalty box");
+            Console.WriteLine(CurrentPlayer + " was sent to the penalty box");
             _inPenaltyBox[_currentPlayer] = true;
 
             _currentPlayer++;

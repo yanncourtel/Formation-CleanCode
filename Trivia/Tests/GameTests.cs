@@ -14,7 +14,7 @@ namespace Tests
         {
             //Arrange
             var game = new Game();
-            game.Add("Michel");
+            game.AddPlayer("Michel");
             game.WasCorrectlyAnswered();
             game.WasCorrectlyAnswered();
             game.WasCorrectlyAnswered();
