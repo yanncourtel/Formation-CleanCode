@@ -1,3 +1,5 @@
+using SOLID.DependencyInversion.domain;
+
 namespace SOLID.DependencyInversion.infrastructure
 {
     public class AvailabilityDaoImpl : IAvailabilityDao {
