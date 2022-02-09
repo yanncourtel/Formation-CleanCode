@@ -24,7 +24,7 @@ namespace Trivia
                 }
                 else
                 {
-                    aGame.WrongAnswer();
+                    aGame.CurrentPlayerIncorrectlyAnswered();
                 }
             } while (aGame.HasAWinner);
         }

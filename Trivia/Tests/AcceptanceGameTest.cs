@@ -20,7 +20,7 @@ namespace Tests
             var game = new Game();
             game.AddPlayer("Cedric");
             game.Roll(12);
-            game.WrongAnswer();
+            game.CurrentPlayerIncorrectlyAnswered();
             game.Roll(2);
             game.Roll(13);
             game.WasCorrectlyAnswered();
@@ -68,7 +68,7 @@ namespace Tests
             game.AddPlayer("Cedric");
             game.AddPlayer("Eloïse");
             game.Roll(1);
-            game.WrongAnswer();
+            game.CurrentPlayerIncorrectlyAnswered();
             game.Roll(2);
             game.WasCorrectlyAnswered();
             game.Roll(2);

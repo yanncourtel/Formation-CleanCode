@@ -20,6 +20,8 @@ namespace Trivia
         private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayerIndex;
+        private Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory>();
+
         private Player CurrentPlayer => _players[_currentPlayerIndex];
 
         public bool HasAWinner { get; internal set; }
@@ -125,23 +127,25 @@ namespace Trivia
 
         private string CurrentCategory()
         {
-            switch (CurrentPlayer.Position)
-            {
-                case 0:
-                case 4:
-                case 8:
-                    return "Pop";
-                case 1:
-                case 5:
-                case 9:
-                    return "Science";
-                case 2:
-                case 6:
-                case 10:
-                    return "Sports";
-                default:
-                    return "Rock";
-            }
+            //switch (CurrentPlayer.Position)
+            //{
+            //    case 0:
+            //    case 4:
+            //    case 8:
+            //        return "Pop";
+            //    case 1:
+            //    case 5:
+            //    case 9:
+            //        return "Science";
+            //    case 2:
+            //    case 6:
+            //    case 10:
+            //        return "Sports";
+            //    default:
+            //        return "Rock";
+            //}
+
+            return _categoryPosition[CurrentPlayer.Position].ToString();
         }
 
         /// <summary>
@@ -171,11 +175,8 @@ namespace Trivia
             if (_currentPlayerIndex == _players.Count) _currentPlayerIndex = 0;
         }
 
-        /// <summary>
-        /// To call when the answer is wrong
-        /// </summary>
-        /// <returns></returns>
-        public bool WrongAnswer()
+
+        public void CurrentPlayerIncorrectlyAnswered()
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(CurrentPlayer + " was sent to the penalty box");
@@ -184,8 +185,14 @@ namespace Trivia
             _currentPlayerIndex++;
             if (_currentPlayerIndex == _players.Count) _currentPlayerIndex = 0;
 
-            return true;
         }
     }
 
+    internal enum QuestionCategory
+    {
+        Pop,
+        Science,
+        Sports,
+        Rock
+    }
 }
