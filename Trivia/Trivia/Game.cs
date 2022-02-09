@@ -14,8 +14,6 @@ namespace Trivia
 
         private readonly List<Player> _players = new List<Player>();
 
-        private readonly int[] _places = new int[MaxPlayers];
-
         private readonly bool[] _inPenaltyBox = new bool[MaxPlayers];
 
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
@@ -53,8 +51,7 @@ namespace Trivia
 
         public bool AddPlayer(string playerName)
         {
-            _players.Add(new Player(playerName));
-            _places[HowManyPlayers()] = 0;
+            _players.Add(new Player(playerName));          
             _inPenaltyBox[HowManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
@@ -101,12 +98,13 @@ namespace Trivia
 
         private void MoveCurrentPlayer(int roll)
         {
-            _places[_currentPlayerIndex] += roll;
-            if (_places[_currentPlayerIndex] >= BoardSize) _places[_currentPlayerIndex] -= BoardSize;
+            //_places[_currentPlayerIndex] += roll;
+            CurrentPlayer.Move(roll, BoardSize);
+            
 
             Console.WriteLine(CurrentPlayer
                               + "'s new location is "
-                              + _places[_currentPlayerIndex]);
+                              + CurrentPlayer.Position);
         }
 
         private void AskQuestion()
@@ -135,7 +133,7 @@ namespace Trivia
 
         private string CurrentCategory()
         {
-            switch (_places[_currentPlayerIndex])
+            switch (CurrentPlayer.Position)
             {
                 case 0:
                 case 4:

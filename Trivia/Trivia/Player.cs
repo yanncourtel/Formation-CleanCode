@@ -7,6 +7,7 @@ namespace Trivia
         private string playerName;
 
         public int Purse { get; internal set; }
+        public int Position { get; private set; }
 
         public Player(string playerName)
         {
@@ -26,6 +27,12 @@ namespace Trivia
         public bool IsTheWinner(int goldCoinsToWin)
         {
             return Purse == goldCoinsToWin;
+        }
+
+        internal void Move(int roll, int boardSize)
+        {
+            Position += roll;
+            if (Position >= boardSize) Position -= boardSize;
         }
     }
 }
