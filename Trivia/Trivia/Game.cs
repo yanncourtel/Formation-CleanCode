@@ -20,9 +20,8 @@ namespace Trivia
         private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayerIndex;
-        private Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory>();
 
-        private static Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory> {
+        private static readonly Dictionary<int,QuestionCategory> CategoryPosition = new Dictionary<int, QuestionCategory> {
 
             { 0, QuestionCategory.Pop },
             { 4, QuestionCategory.Pop },
@@ -37,8 +36,7 @@ namespace Trivia
             { 7, QuestionCategory.Rock },
             { 11, QuestionCategory.Rock }
         };
-
-        private Dictionary<int, QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory>();
+        
         private readonly IOutputAdapter _outputAdapter;
         
         private Player CurrentPlayer => _players[_currentPlayerIndex];
@@ -98,7 +96,7 @@ namespace Trivia
                     OutputMessage(CurrentPlayer + " is getting out of the penalty box");
                     // add roll to place
                     MoveCurrentPlayer(roll);
-                    OutputMessage("The category is " + CurrentCategory());
+                    OutputMessage("The category is " + CategoryPosition[CurrentPlayer.Position].ToString());
                     AskQuestion();
                 }
                 else
@@ -109,7 +107,7 @@ namespace Trivia
             else
             {
                 MoveCurrentPlayer(roll);
-                OutputMessage("The category is " + CurrentCategory());
+                OutputMessage("The category is " + CategoryPosition[CurrentPlayer.Position].ToString());
                 AskQuestion();
             }
         }
@@ -125,31 +123,26 @@ namespace Trivia
 
         private void AskQuestion()
         {
-            if (CurrentCategory() == "Pop")
+            if (CategoryPosition[CurrentPlayer.Position] == QuestionCategory.Pop)
             {
                 OutputMessage(_popQuestions.First());
                 _popQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == "Science")
+            if (CategoryPosition[CurrentPlayer.Position] == QuestionCategory.Science)
             {
                 OutputMessage(_scienceQuestions.First());
                 _scienceQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == "Sports")
+            if (CategoryPosition[CurrentPlayer.Position] == QuestionCategory.Sports)
             {
                 OutputMessage(_sportQuestions.First());
                 _sportQuestions.RemoveFirst();
             }
-            if (CurrentCategory() == "Rock")
+            if (CategoryPosition[CurrentPlayer.Position] == QuestionCategory.Rock)
             {
                 OutputMessage(_rockQuestions.First());
                 _rockQuestions.RemoveFirst();
             }
-        }
-
-        private string CurrentCategory()
-        {
-            return _categoryPosition[CurrentPlayer.Position].ToString();
         }
 
         /// <summary>
