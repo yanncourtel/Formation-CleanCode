@@ -20,7 +20,21 @@ namespace Trivia
         private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
 
         private int _currentPlayerIndex;
-        private Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory>();
+        private static Dictionary<int,QuestionCategory> _categoryPosition = new Dictionary<int, QuestionCategory> {
+
+            { 0, QuestionCategory.Pop },
+            { 4, QuestionCategory.Pop },
+            { 8, QuestionCategory.Pop },
+            { 1, QuestionCategory.Science },
+            { 5, QuestionCategory.Science },
+            { 9, QuestionCategory.Science },
+            { 2, QuestionCategory.Sports },
+            { 6, QuestionCategory.Sports },
+            { 10, QuestionCategory.Sports },
+            { 3, QuestionCategory.Rock },
+            { 7, QuestionCategory.Rock },
+            { 11, QuestionCategory.Rock }
+        };
 
         private Player CurrentPlayer => _players[_currentPlayerIndex];
 
@@ -30,17 +44,12 @@ namespace Trivia
         {
             for (var i = 0; i < NumberOfQuestions; i++)
             {
-                _popQuestions.AddLast("Pop Question " + i);
-                _scienceQuestions.AddLast(("Science Question " + i));
-                _sportQuestions.AddLast(("Sports Question " + i));
-                _rockQuestions.AddLast(CreateRockQuestion(i));
+                _popQuestions.AddLast(QuestionCategory.Pop + " Question " + i);
+                _scienceQuestions.AddLast(QuestionCategory.Science + " Question " + i);
+                _sportQuestions.AddLast(QuestionCategory.Sports + " Question " + i);
+                _rockQuestions.AddLast(QuestionCategory.Rock + " Question " + i);
             }
 
-        }
-
-        public string CreateRockQuestion(int index)
-        {
-            return "Rock Question " + index;
         }
 
         public bool IsPlayable()
