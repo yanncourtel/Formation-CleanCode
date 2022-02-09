@@ -6,7 +6,7 @@ namespace TheatricalPlayersRefactoringKata
 {
     public class StatementPrinter
     {
-        public string Print(Invoice invoice, Dictionary<string, Play> plays)
+        public string Print(Invoice invoice)
         {
             var totalAmount = 0;
             var volumeCredits = 0;
@@ -15,7 +15,7 @@ namespace TheatricalPlayersRefactoringKata
 
             foreach(var perf in invoice.Performances) 
             {
-                var play = plays[perf.PlayID];
+                var play = perf.Play;
                 var thisAmount = 0;
                 switch (play.Type) 
                 {

@@ -12,33 +12,24 @@ namespace TheatricalPlayersRefactoringKata.Tests
         [UseReporter(typeof(DiffReporter))]
         public void test_statement_exemple()
         {
-            var plays = new Dictionary<string, Play>();
-            plays.Add("hamlet", new Play("Hamlet", "tragedy"));
-            plays.Add("as-like", new Play("As You Like It", "comedy"));
-            plays.Add("othello", new Play("Othello", "tragedy"));
-
-            Invoice invoice = new Invoice("BigCo", new List<Performance>{new Performance("hamlet", 55),
-                new Performance("as-like", 35),
-                new Performance("othello", 40)});
+           Invoice invoice = new Invoice("BigCo", new List<Performance>{new Performance(new Play("Hamlet", "tragedy"), 55),
+                new Performance(new Play("As You Like It", "comedy"), 35),
+                new Performance(new Play("Othello", "tragedy"), 40)});
             
             StatementPrinter statementPrinter = new StatementPrinter();
-            var result = statementPrinter.Print(invoice, plays);
+            var result = statementPrinter.Print(invoice);
 
             Approvals.Verify(result);
         }
         [Fact]
         public void test_statement_with_new_play_types()
-        {
-            var plays = new Dictionary<string, Play>();
-            plays.Add("henry-v", new Play("Henry V", "history"));
-            plays.Add("as-like", new Play("As You Like It", "pastoral"));
-
-            Invoice invoice = new Invoice("BigCoII", new List<Performance>{new Performance("henry-v", 53),
-                new Performance("as-like", 55)});
+        {          
+            Invoice invoice = new Invoice("BigCoII", new List<Performance>{new Performance(new Play("Henry V", "history"), 53),
+                new Performance(new Play("As You Like It", "pastoral"), 55)});
             
             StatementPrinter statementPrinter = new StatementPrinter();
 
-            Assert.Throws<Exception>(() => statementPrinter.Print(invoice, plays));
+            Assert.Throws<Exception>(() => statementPrinter.Print(invoice));
         }
     }
 }
